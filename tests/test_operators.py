@@ -23,6 +23,7 @@ from minitorch.operators import (
     relu,
     relu_back,
     sigmoid,
+    is_close
 )
 
 from .strategies import assert_close, small_floats
@@ -105,18 +106,35 @@ def test_sigmoid(a: float) -> None:
     * It is always between 0.0 and 1.0.
     * one minus sigmoid is the same as sigmoid of the negative
     * It crosses 0 at 0.5
-    * It is  strictly increasing.
+    * It is strictly increasing.
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
-
+    
+    try:
+        # 值域
+        assert sigmoid(a) <= 1.0
+        assert sigmoid(-a) >= 0.0
+        
+        # 对称性(指数函数精确度为 0.01)
+        assert is_close(1.0 - sigmoid(a), sigmoid(-a))
+        
+        # 过定点
+        assert sigmoid(0.0) == 0.5
+        
+        # （严格）单调递增
+        assert sigmoid(a) <= sigmoid(a + 1.0)
+    except:
+        raise NotImplementedError("The sig() operator is implemented incorrectly")
 
 @pytest.mark.task0_2
 @given(small_floats, small_floats, small_floats)
 def test_transitive(a: float, b: float, c: float) -> None:
     """Test the transitive property of less-than (a < b and b < c implies a < c)"""
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    try:
+        assert lt(a, b) + lt(b, c) >= lt(a, c)
+    except:
+        raise NotImplementedError("The lt() operator is implemented incorrectly")
 
 
 @pytest.mark.task0_2
@@ -125,8 +143,12 @@ def test_symmetric() -> None:
     gives the same value regardless of the order of its input.
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
-
+    try:
+        assert mul(52, 498) == 25896
+        assert mul(498, 52) == 25896
+        assert mul(52, 498) == mul(498, 52)
+    except:
+        raise NotImplementedError("The mul() operator is implemented incorrectly")
 
 @pytest.mark.task0_2
 def test_distribute() -> None:
@@ -134,15 +156,22 @@ def test_distribute() -> None:
     :math:`z \times (x + y) = z \times x + z \times y`
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    try:
+        assert mul(2, add(3, 4)) == add(mul(2, 3), mul(2, 4))
+    except:
+        raise NotImplementedError("The add() and mul() operators are implemented incorrectly")
 
 
 @pytest.mark.task0_2
 def test_other() -> None:
     """Write a test that ensures some other property holds for your functions."""
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
-
+    try:
+        assert inv(1) == 1
+        assert inv_back(2) == -(inv(2)**2)
+        assert addLists([1, 2, 3, 4], [5, 6, 7, 8]) == addLists([5, 6, 7, 8], [1, 2, 3, 4])
+    except:
+        raise NotImplementedError("inv(), inv_back(), and addLists() are implemented incorrectly")
 
 # ## Task 0.3  - Higher-order functions
 

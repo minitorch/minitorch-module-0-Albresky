@@ -71,6 +71,7 @@ def is_close(x, y):
     return abs(x-y) < 1e-2
 
 def sigmoid(x):
+    # 稳定性实现
     return 1.0 / (1.0 + math.exp(-x)) if x >= 0 else math.exp(x) / (1.0 + math.exp(x))
 
 def relu(x):
