@@ -1,6 +1,7 @@
 """Collection of the core mathematical operators used throughout the code base."""
 
 import math
+import builtins
 
 # ## Task 0.1
 from typing import Callable, Iterable
@@ -46,14 +47,14 @@ def id(x):
 def add(x, y):
     return x+y
 
-def addLists(x, y):
-    return [a+b for a, b in zip(x, y)]
+# def addLists(x, y):
+#     return [a+b for a, b in zip(x, y)]
 
 def neg(x):
     return -x
 
-def negList(x):
-    return [-a for a in x]
+# def negList(x):
+#     return [-a for a in x]
 
 def lt(x, y):
     return x < y
@@ -113,3 +114,21 @@ def relu_back(x, y):
 
 
 # TODO: Implement for Task 0.3.
+
+def map(fn: Callable[[float], float], arr: Iterable[float]) -> Iterable[float]:
+    return [fn(a) for a in arr]
+
+def zipWith(fn: Callable[[float, float], float], arr1: Iterable[float], arr2: Iterable[float]) -> Iterable[float]:
+    return [fn(a, b) for a, b in zip(arr1, arr2)]
+
+def reduce(fn: Callable[[float, float], float], arr: Iterable[float], init: float) -> float:
+    return builtins.sum([fn(init, a) for a in arr]) # 使用内置 sum() 函数求和
+
+def negList(x):
+    return map(neg, x)
+
+def addLists(x, y):
+    return zipWith(add, x, y)
+
+def sum(x):
+    return reduce(add, x, 0)
