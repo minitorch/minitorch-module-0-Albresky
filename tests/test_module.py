@@ -22,6 +22,7 @@ class ModuleA1(minitorch.Module):
         self.non_param = 10
         self.a = ModuleA2()
         self.b = ModuleA3()
+        pass
 
 
 class ModuleA2(minitorch.Module):
